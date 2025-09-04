@@ -8,10 +8,11 @@ import { RouterOutlet } from '@angular/router';
 import { TodoAddEdit } from './todo-add-edit/todo-add-edit';
 import { Todos } from './services/todos';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatTableModule],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatTableModule, DatePipe],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
