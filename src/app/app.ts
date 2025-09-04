@@ -6,17 +6,37 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
 import { TodoAddEdit } from './todo-add-edit/todo-add-edit';
+import { Todos } from './services/todos';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-root',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatTableModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('todos-app');
+  todoService: Todos = inject(Todos);
 
   readonly dialog = inject(MatDialog);
+  displayedColumns: string[] = ['id', 'description', 'targetDate', 'done'];
+  dataSource!: MatTableDataSource<any>;
+
+  ngOnInit(): void {
+    this.getAllTodos();
+  }
+
+  getAllTodos() {
+    this.todoService.getAllTodos().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.dataSource = new MatTableDataSource(res);
+      }, error: (err) => {
+        console.error(err);
+      }
+    });
+  }
 
   openAddEditTodoForm() {
     this.dialog.open(TodoAddEdit);

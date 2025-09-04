@@ -11,8 +11,11 @@ export class Todos {
   constructor(private _http: HttpClient) { }
 
   addTodo(data: any): Observable<any> {
-    console.log(data);
     return this._http.post(this.targetUrl, data);
+  }
+
+  getAllTodos(): Observable<any> {
+    return this._http.get(this.targetUrl);
   }
 
 }
