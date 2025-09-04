@@ -24,7 +24,7 @@
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Status</mat-label>
-                <select matNativeControl required formControlName="status">
+                <select matNativeControl required formControlName="done">
                     <option value="true">Done</option>
                     <option value="false">Not Done</option>
                 </select>
@@ -33,7 +33,8 @@
         <p>
 
             <button mat-raised-button mat-dialog-close color="warn" type="button">Cancel</button>
-            <button mat-raised-button color="primary" type="submit" [disabled]="!todoForm.valid">Save</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!todoForm.valid">{{data ? 'Update'
+                :'Save'}}</button>
         </p>
     </form>
 </mat-dialog-content>

@@ -20,7 +20,7 @@ export class App {
   todoService: Todos = inject(Todos);
 
   readonly dialog = inject(MatDialog);
-  displayedColumns: string[] = ['id', 'description', 'targetDate', 'done'];
+  displayedColumns: string[] = ['id', 'description', 'targetDate', 'done', 'actions'];
   dataSource!: MatTableDataSource<any>;
 
   ngOnInit(): void {
@@ -39,6 +39,36 @@ export class App {
   }
 
   openAddEditTodoForm() {
-    this.dialog.open(TodoAddEdit);
+    const dialogRef = this.dialog.open(TodoAddEdit);
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.getAllTodos();
+        }
+      }
+    });
+  }
+
+  openEditTodoForm(data: any) {
+    const dialogRef = this.dialog.open(TodoAddEdit, { data });
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.getAllTodos();
+        }
+      }
+    });
+  }
+
+  deleteTodo(id: number) {
+    this.todoService.detletTod(id).subscribe({
+      next: (res) => {
+        alert('Todo Deleted');
+        this.getAllTodos();
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 }

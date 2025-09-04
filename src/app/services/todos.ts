@@ -18,4 +18,12 @@ export class Todos {
     return this._http.get(this.targetUrl);
   }
 
+  detletTod(id: number): Observable<any> {
+    return this._http.delete(`${this.targetUrl}/${id}`);
+  }
+
+  updateTodo(id: number, data: any): Observable<any> {
+    return this._http.put(`${this.targetUrl}/${id}`, data);
+  }
+
 }
