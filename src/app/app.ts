@@ -9,6 +9,7 @@ import { TodoAddEdit } from './todo-add-edit/todo-add-edit';
 import { Todos } from './services/todos';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
+import { Core } from './core/core';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ import { DatePipe } from '@angular/common';
 export class App {
   protected readonly title = signal('todos-app');
   todoService: Todos = inject(Todos);
-
+  coreService = inject(Core);
   readonly dialog = inject(MatDialog);
   displayedColumns: string[] = ['id', 'description', 'targetDate', 'done', 'actions'];
   dataSource!: MatTableDataSource<any>;
@@ -64,7 +65,7 @@ export class App {
   deleteTodo(id: number) {
     this.todoService.detletTod(id).subscribe({
       next: (res) => {
-        alert('Todo Deleted');
+        this.coreService.openSnackBar('Todo Deleted!', 'done');
         this.getAllTodos();
       },
       error: (err) => {

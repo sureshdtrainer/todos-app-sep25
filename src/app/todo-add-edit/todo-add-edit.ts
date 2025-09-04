@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Todos } from '../services/todos';
+import { Core } from '../core/core';
 
 @Component({
   selector: 'app-todo-add-edit',
@@ -24,6 +25,7 @@ import { Todos } from '../services/todos';
 })
 export class TodoAddEdit {
   todoForm: FormGroup;
+  coreService = inject(Core);
 
   constructor(
     private _fb: FormBuilder,
@@ -38,10 +40,6 @@ export class TodoAddEdit {
 
   };
 
-
-
-
-
   todoService: Todos = inject(Todos);
 
   ngOnInit(): void {
@@ -53,7 +51,7 @@ export class TodoAddEdit {
       if (this.data) { //Update todo
         this.todoService.updateTodo(this.data.id, this.todoForm.value).subscribe({
           next: (res) => {
-            alert('Todo Updated')
+            this.coreService.openSnackBar('Todo Updated!', 'done');
             this._dialogRef.close(true);
             console.log(res);
           },
@@ -64,7 +62,7 @@ export class TodoAddEdit {
       } else { //Add todo
         this.todoService.addTodo(this.todoForm.value).subscribe({
           next: (res) => {
-            alert('Todo Added')
+            this.coreService.openSnackBar('Todo Added!', 'done');
             this._dialogRef.close(true);
           },
           error: (err) => {
